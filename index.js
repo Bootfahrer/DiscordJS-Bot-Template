@@ -14,6 +14,9 @@ const client = new Client({
     intents: ['Guilds','GuildMessages', 'GuildModeration', 'GuildMembers']
 });
 
+// 
+//<-- command handler -->
+//
 const commands = [];
 client.commands = new Collection();
 const foldersPath = path.join(__dirname, 'commands');
@@ -31,46 +34,20 @@ for (const folder of commandFolders) {
 	}
 }
 
+// 
+//<-- event handler -->
+//
+const eventsPath = path.join(__dirname, 'events');
+const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
 
-
-client.on("ready", () => {
-    //get all ids of the servers
-    const guild_ids = client.guilds.cache.map(guild => guild.id);
-
-    const rest = new REST({version: '9'}).setToken(process.env.TOKEN);
-    for(const guildId of guild_ids){
-        rest.put(Routes.applicationGuildCommands(process.env.CLIENT_ID, guildId),
-            {body: commands})
-        .then(() => console.log("Successfully updated the commands for guild " + guildId))
-        .catch(console.error);
-
-    }
-
-    client.user.setActivity('with the bois', {type: ActivityType.Playing})
-    //client.user.setPresence({ activities: [{ name: 'adding new Features' }], status: 'idle' });
-})
-
-client.on("guildMemberAdd", guildMember => {
-    let welcomeRole =  guildMember.guild.roles.cache.find(role => role.name === 'Member')
-    
-    guildMember.roles.add(welcomeRole)
-})
-
-client.on("interactionCreate", async interaction => {
-    if(!interaction.isCommand()) return;
-
-    const command = client.commands.get(interaction.commandName);
-
-    if(!command) return;
-
-    try {
-        await command.execute(interaction);
-    }
-    catch(error)
-    {
-        console.error(error);
-        await interaction.reply({content: "There was an error executing this command."})
-    }
-})
+for (const file of eventFiles) {
+	const filePath = path.join(eventsPath, file);
+	const event = require(filePath);
+	if (event.once) {
+		client.once(event.name, (...args) => event.execute(...args));
+	} else {
+		client.on(event.name, (...args) => event.execute(...args));
+	}
+}
 
 client.login(process.env.TOKEN)

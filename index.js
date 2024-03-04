@@ -1,11 +1,7 @@
 // "node ." zum starten in die Konsole
 require('dotenv').config();
 
-const {REST} = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
-const { Client, Intents, Collection, ActivityType } = require('discord.js');
-const { QuickDB } = require('quick.db');
-const db = new QuickDB();
+const { Client, Collection } = require('discord.js');
 
 const fs = require('fs');
 const path = require('path');

@@ -33,16 +33,19 @@ for (const folder of commandFolders) {
 // 
 //<-- event handler -->
 //
-const eventsPath = path.join(__dirname, 'events');
-const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
-
-for (const file of eventFiles) {
-	const filePath = path.join(eventsPath, file);
-	const event = require(filePath);
-	if (event.once) {
-		client.once(event.name, (...args) => event.execute(...args));
-	} else {
-		client.on(event.name, (...args) => event.execute(...args));
+const eventsFolderPath = path.join(__dirname, 'events');
+const eventsFolder = fs.readdirSync(eventsFolderPath)
+for(const folder of eventsFolder){
+	const eventsPath = path.join(eventsFolderPath, folder)
+	const eventFiles = fs.readdirSync(eventsPath).filter(file => file.endsWith('.js'));
+	for (const file of eventFiles) {
+		const filePath = path.join(eventsPath, file);
+		const event = require(filePath);
+		if (event.once) {
+			client.once(event.name, (...args) => event.execute(...args));
+		} else {
+			client.on(event.name, (...args) => event.execute(...args));
+		}
 	}
 }
 

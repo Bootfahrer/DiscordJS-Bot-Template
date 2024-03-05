@@ -1,6 +1,6 @@
 const { REST, Routes } = require('discord.js')
 const fs = require('fs')
-const {token, clientId, guildId} = require('./conf.json')
+const {token, clientId, testId} = require('./conf.json')
 const path = require('path')
 
 const commands = []
@@ -35,7 +35,7 @@ async function updateTestserver() {
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
-			Routes.applicationGuildCommands(clientId, guildId),
+			Routes.applicationGuildCommands(clientId, testId),
 			{ body: commands },
 		);
 

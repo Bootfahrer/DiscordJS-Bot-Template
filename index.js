@@ -1,5 +1,5 @@
 // "node ." zum starten in die Konsole
-require('dotenv').config();
+const { token } = require('./conf.json')
 
 const { Client, Collection } = require('discord.js');
 
@@ -49,4 +49,4 @@ for(const folder of eventsFolder){
 	}
 }
 
-client.login(process.env.TOKEN)
+client.login(token)

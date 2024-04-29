@@ -1,4 +1,4 @@
-// "node ." zum starten in die Konsole
+// enter "node ." or "node index.js" in the terminal in order to host the bot locally
 const { token } = require('./conf.json')
 
 const { Client, Collection } = require('discord.js');
@@ -6,6 +6,7 @@ const { Client, Collection } = require('discord.js');
 const fs = require('fs');
 const path = require('path');
 
+//some basic intents
 const client = new Client({
     intents: ['Guilds','GuildMessages', 'GuildModeration', 'GuildMembers']
 });

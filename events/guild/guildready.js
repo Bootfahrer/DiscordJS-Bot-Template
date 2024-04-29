@@ -12,6 +12,6 @@ module.exports = {
             console.log(`Updated commands for Guild ${id}!`);
         })
 
-        client.user.setPresence({ activities: [{ name: 'adding new Features' }], status: 'idle' });
+        client.user.setPresence({ activities: [{ name: 'creating a bot' }], status: 'idle' });
     }
 }

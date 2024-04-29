@@ -1,5 +1,6 @@
 const { Events } = require('discord.js')
 
+//Basic event handler for executing commands
 module.exports = {
     name: Events.InteractionCreate,
 

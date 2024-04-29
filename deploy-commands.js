@@ -1,10 +1,11 @@
 const { REST, Routes } = require('discord.js')
 const fs = require('fs')
-const {token, clientId, testId} = require('./conf.json')
+const {token, clientId} = require('./conf.json')
 const path = require('path')
 
 const commands = []
 
+//get all the commands and put them into an array
 const folderPath = path.join(__dirname, "commands")
 const commandsFolders = fs.readdirSync(folderPath)
 for(const folder of commandsFolders){
@@ -19,40 +20,21 @@ for(const folder of commandsFolders){
 
 const rest = new REST().setToken(token);
 
-process.argv.forEach((val) => {
-	if(val === "test"){
-		updateTestserver()
-	} else if(val === "all"){
-		updateAll()
-	} else {
-		console.log("Falscher Parameter angegeben");
+//Get the id from the server you want to update from the parameters
+process.argv.forEach((param) => {
+	console.log(param);
+	if(param != "node" && param != "." && param != "index.js"){
+		updateCommands(param)
 	}
 })
 
-async function updateTestserver() {
+async function updateCommands(serverId) {
 	try {
 		console.log(`Started refreshing ${commands.length} application (/) commands.`);
 
 		// The put method is used to fully refresh all commands in the guild with the current set
 		const data = await rest.put(
-			Routes.applicationGuildCommands(clientId, testId),
-			{ body: commands },
-		);
-
-		console.log(`Successfully reloaded ${data.length} application (/) commands.`);
-	} catch (error) {
-		// And of course, make sure you catch and log any errors!
-		console.error(error);
-	}
-}
-
-async function updateAll() {
-	try {
-		console.log(`Started refreshing ${commands.length} application (/) commands.`);
-
-		// The put method is used to fully refresh all commands in the guild with the current set
-		const data = await rest.put(
-			Routes.applicationGuildCommands(clientId),
+			Routes.applicationGuildCommands(clientId, serverId),
 			{ body: commands },
 		);
 

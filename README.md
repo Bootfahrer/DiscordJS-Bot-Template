@@ -1,6 +1,3 @@
-Führe folgenden Command in der Konsole aus, um commands zu updaten:
-node deploy-commands.js test
-node deploy-commands.js all
+Execute the following command in order to update the commands in an guild:
 
-test updated nur den Testserver
-all updated alle server
+node deploy-commands.js serverId

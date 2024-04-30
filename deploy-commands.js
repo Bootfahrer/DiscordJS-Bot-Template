@@ -21,12 +21,9 @@ for(const folder of commandsFolders){
 const rest = new REST().setToken(token);
 
 //Get the id from the server you want to update from the parameters
-process.argv.forEach((param) => {
-	console.log(param);
-	if(param != "node" && param != "." && param != "index.js"){
-		updateCommands(param)
-	}
-})
+for (let i = 2; i < process.argv.length; i++) {
+	updateCommands(process.argv[i])
+}
 
 async function updateCommands(serverId) {
 	try {
